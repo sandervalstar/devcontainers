@@ -1,4 +1,4 @@
-FROM sandervalstar/devcontainer:centos_cpp_basic_v2
+FROM sandervalstar/devcontainer:centos_cpp_basic_v3
 
 
 # Make sure manpages will get downloaded
@@ -7,7 +7,9 @@ RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
 # Install packages
 RUN yum -y --enablerepo=extras install epel-release \
     && yum -y install cmake-2.8.12.2 \
-    && yum -y install cmake3-3.17.2
+    && yum -y install cmake3-3.17.2 \
+    && yum -y autoremove \
+    && yum -y clean all
     # 
     # Configure cmake versions so you can switch versions using
     # 'alternatives --config cmake'
@@ -15,8 +17,8 @@ RUN alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake 10 \
 --slave /usr/local/bin/ctest ctest /usr/bin/ctest \
 --slave /usr/local/bin/cpack cpack /usr/bin/cpack \
 --slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake \
---family cmake
-RUN alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \
+--family cmake \
+&& alternatives --install /usr/local/bin/cmake cmake /usr/bin/cmake3 20 \
 --slave /usr/local/bin/ctest ctest /usr/bin/ctest3 \
 --slave /usr/local/bin/cpack cpack /usr/bin/cpack3 \
 --slave /usr/local/bin/ccmake ccmake /usr/bin/ccmake3 \
@@ -51,4 +53,9 @@ RUN yum -y install llvm-toolset-7-5.0.1 \
     #
     # Install epel-release sofware
     && yum -y --enablerepo=extras install epel-release \
-    && yum -y install lcov-1.13
+    && yum -y install lcov-1.13 \
+    && yum -y autoremove \
+    && yum -y clean all
+
+# Set the default shell to bash instead of sh
+ENV SHELL /bin/bash
