@@ -1,12 +1,13 @@
-FROM sandervalstar/devcontainer:centos_cpp_basic_v1
+FROM sandervalstar/devcontainer:centos_cpp_basic_v2
 
 
 # Make sure manpages will get downloaded
 RUN sed -i '/tsflags=nodocs/d' /etc/yum.conf
 
 # Install packages
-RUN yum -y install cmake-2.8.12.2 \
-    && yum -y install cmake3-3.14.7
+RUN yum -y --enablerepo=extras install epel-release \
+    && yum -y install cmake-2.8.12.2 \
+    && yum -y install cmake3-3.17.2
     # 
     # Configure cmake versions so you can switch versions using
     # 'alternatives --config cmake'
@@ -29,6 +30,9 @@ RUN yum -y install llvm-toolset-7-5.0.1 \
     # 
     # Install more static analyzers
     && yum -y install cppcheck-1.90 \
+    #
+    # Install xxd for comparing binary files
+    && yum install -y vim-common \
     #
     # Install pip
     && yum -y install python3-3.6.8 \

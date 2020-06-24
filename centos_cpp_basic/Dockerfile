@@ -8,8 +8,8 @@ RUN yum -y makecache \
     && yum -y install man man-pages man-db \
     #
     # Install git v2
-    && yum -y install  https://centos7.iuscommunity.org/ius-release.rpm \
-    && yum -y install  git2u-all \
+    && yum -y install https://packages.endpoint.com/rhel/7/os/x86_64/endpoint-repo-1.7-1.x86_64.rpm \
+    && yum -y install git \
     #
     # Install C++ tools
     && yum -y install centos-release-scl \
